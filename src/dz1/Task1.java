@@ -7,56 +7,29 @@ public class Task1 {
         }
         System.out.println();
 
+        int temp = 0;
 
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
-        int indexOfMin = 0;
-        int indexOfMax = 0;
-
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] < min) {
-                indexOfMin = i;
-                min = array[i]; // находим чему равен минимум
-            }
-            if (array[i] > max) {
-                indexOfMax = i;
-                max = array[i]; // находим максимум
+        for (int i = 0; i < array.length - 1; i++) {
+            if ((array[i] > array[array.length - 1]) && (array[i] > array[i + 1])) {
+                temp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = temp;
             }
         }
-        System.out.println("Min = " +min + " Индекс минимума = " + indexOfMin + " Max = " + max + " Индекс максимума = " + indexOfMax);
-
-        if (indexOfMax < indexOfMin) {
-            array[indexOfMax] = min;
-            array[indexOfMin] = max;
-            int index = indexOfMin;
-            indexOfMin = indexOfMax;
-            indexOfMax = index;
-
-            for (int j = indexOfMin; j > 0; j--) {
-                array[j] = array[j - 1];
+        for (int i = array.length - 1; i > 0; i--) {
+            if ((array[i] < array[0]) && (array[i] < array[i - 1])) {
+                temp = array[i];
+                array[i] = array[i - 1];
+                array[i - 1] = temp;
             }
-            array[0] = min;
-
-            for (int x = indexOfMax; x < array.length - 1; x++) {
-                array[x] = array[x + 1];
-            }
-            array[array.length - 1] = max;
-        } else {
-            for (int j = indexOfMin; j > 0; j--) {
-                array[j] = array[j - 1];
-            }
-            array[0] = min;
-
-            for (int x = indexOfMax; x < array.length - 1; x++) {
-                array[x] = array[x + 1];
-            }
-            array[array.length - 1] = max;
         }
 
         System.out.println("Результат");
-        for (int i : array) {
+        for (int j : array) {
 
-            System.out.print(i + " ");
+            System.out.print(j + " ");
         }
+
     }
 }
+
