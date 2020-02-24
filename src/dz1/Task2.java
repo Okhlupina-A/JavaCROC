@@ -13,67 +13,24 @@ public class Task2 {
         while (true) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             String s = reader.readLine();
-            double n = Double.parseDouble(s);
-            printBytes(n);
+            long n = Long.parseLong(s);
             printBytesUpgrade(n);
         }
     }
 
-    /**
-     * Этот метод, на мой взгляд, удобнее, если потребуется добавлять новые индексы больше ТБ
-     * @param number
-     */
-    public static void printBytesUpgrade(double number) {
+    public static void printBytesUpgrade(long number) {
         int count = 0;
-        for (int i = 0; i<=5; i++){
-            if (number/1024.0 < 1) break;
-            number = number/1024.0;
+        double number1 = (double) number;
+        String[] index = new String[]{"B", "KB", "MB", "GB", "TB", "PB", "EB"};
+        // потому что в лонге 8 байт и максимальное значение 9223372036854775807. YB уже не влезет в лонг
+        for (int i = 0; i<=8; i++){
+            if (number1/1024.0 <1){
+                System.out.println(String.format("%.1f",number1) + " " + index[count]);
+                break;
+            }
+            number1 = number1/1024.0;
             count ++;
-        }
-        if (count == 0){
-            System.out.println(String.format("%.1f",number) + " B");
-        }
-        if (count == 1){
-            System.out.println(String.format("%.1f",number) + " KB");
-        }
-        if (count == 2){
-            System.out.println(String.format("%.1f",number) + " MB");
-        }
-        if (count == 3){
-            System.out.println(String.format("%.1f",number) + " GB");
-        }
-        if (count == 4){
-            System.out.println(String.format("%.1f",number) + " TB");
         }
     }
 
-    /**
-     * Метод реализован только с помощью конструкций if-else
-     * @param number
-     */
-    public static void printBytes(double number) {
-        if (number/1024.0 <1) {
-            System.out.println(String.format("%.1f",number) + " B");
-        } else {
-            number = number / 1024;
-            if (number/1024.0 < 1) {
-                System.out.println(String.format("%.1f",number) + " KB");
-            } else {
-                number = number / 1024;
-                if (number / 1024.0 <1) {
-                    System.out.println(String.format("%.1f",number) + " MB");
-                } else {
-                    number = number / 1024;
-                    if (number / 1024.0 < 1) {
-                        System.out.println(String.format("%.1f",number) + " GB");
-                    } else {
-                        number = number / 1024;
-                        if (number / 1024.0 < 1) {
-                            System.out.println(String.format("%.1f",number) + " TB");
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
