@@ -11,14 +11,22 @@ public class Circle implements Figure {
 
     @Override
     public String toString() {
-        String fieldsOfCircle = "0x: "+ xCenter + " 0y: " + yCenter + " радиус: "+ radius;
+        String fieldsOfCircle = "0x: " + xCenter + " 0y: " + yCenter + " радиус: " + radius;
         return fieldsOfCircle;
     }
 
     @Override
-    public Figure checkPoint(int x, int y) {
-        if ((x==xCenter)&&(y==yCenter)){
-        return new Circle(xCenter, yCenter, radius);
+    public boolean checkPoint(int x, int y) {
+        if ((x - xCenter) * (x - xCenter) <= (radius * radius - (y - yCenter) * (y - yCenter))) {
+            return true;
+        }
+        return false;
     }
-        return null;
+
+    @Override
+    public void move(int dx, int dy) {
+        xCenter += dx;
+        yCenter += dy;
+
+    }
 }

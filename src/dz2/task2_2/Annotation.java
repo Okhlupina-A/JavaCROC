@@ -1,34 +1,26 @@
 package task2_2;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class Annotation {
     String text;
     Figure figure;
 
-    Annotation findByPoint (Annotation[] annotations, int x, int y) {
 
-    }
-
-    public Annotation(String text, Figure figure) {
+    public Annotation(String text, Figure figure) throws IOException {
         this.text = text;
         this.figure = figure;
     }
 
-    public static void main(String[] args) {
-        Annotation a1 = new Annotation("My annotation1", new Circle(0, 0, 2));
-        Annotation a2 = new Annotation("My annotation2", new BoundingBox(12, 12, 56, 83));
-        Annotation[] annotations = new Annotation[] {a1, a2};
-        for (Annotation annotation : annotations) {
-            System.out.println(annotation);
-
+    static Annotation findByPoint(Annotation[] annotations, int x, int y) {
+        for (int i = 0; i < annotations.length; i++) {
+            if ((annotations[i] != null)&& (annotations[i].figure != null) && (annotations[i].figure.checkPoint(x, y))) {
+                return annotations[i];
+            }
         }
-        for (int i=0; i<annotations.length; i++){
-            findByPOint()
-        }
-
-    }
-
-    Annotation findByPoint (Annotation[] annotations, int x, int y){
-
+        return null;
     }
 
     @Override
