@@ -3,6 +3,9 @@ package task4_2;
 import com.sun.xml.internal.bind.v2.TODO;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -15,10 +18,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * Алгоритм:
  * Будем мержить их попарно:
  * Сначала [0]+[1] = SUM.
- * Потом в цикле SUM + [i] = SUM2
- * Удаляем файл SUM, но ссылку оставляем. В эту ссылку записываем файл SUM2.
+ * Потом в цикле (i=2...N):
+ * перемещаем файл SUM во временный файл tmp (копируем с последующим удалением исходного файла, т.е. tmp = SUM)
+ * SUM = tmp + [i];
+ * Удаляем tmp.
  * Повторяем цикл.
- * НЕ ПОНИМАЮ, ПОЧЕМУ НЕ РАБОТАЕТ?
  */
 
 public class Solution {
@@ -28,17 +32,15 @@ public class Solution {
         args[1] = "D:/Nastya/Java в КРОК 2020/log2.txt";
         args[2] = "D:/Nastya/Java в КРОК 2020/log3.txt";
         args[3] = "D:/Nastya/Java в КРОК 2020/log4.txt";
-        File file = createSumFile(args[0], args[1]);
-        file.renameTo(new File("D:/Nastya/Java в КРОК 2020/allLogs2.txt")); /*
-        WTF???? Почему renameTo переименовывает файл, но путь к файлу остается с прежним именем???
-        */
-
+        File merged = createSumFile(args[0], args[1]);
         for (int i = 2; i < args.length; i++) {
-            File file2 = createSumFile(file.getAbsolutePath(), args[i]);
-            file.delete(); // теперь ссылка file ни на что не ссылается (пустая)
-            file = file2;
+            Path targetPath = Paths.get("D:/Nastya/Java в КРОК 2020/allLogs2.txt");
+            Files.move(merged.toPath(), targetPath);
+            merged = createSumFile(targetPath.toFile().getAbsolutePath(), args[i]);
+            targetPath.toFile().delete();
         }
     }
+
 
     public static File createSumFile(String fileName1, String fileName2) throws IOException {
         File allLogs = new File("D:/Nastya/Java в КРОК 2020/allLogs.txt");
